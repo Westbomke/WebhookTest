@@ -36,6 +36,12 @@ function getPostRequest(string $username, array $subscribedEvents){
 //Check if the triggered Event is supposed to be tracked / logged.
 function isSubscribedEvent(array $webhookEventHeader, object $webhookEventData, string $username, array $subscribedEvents)
 {
+	//If the event was caused by yourself (defined at the top), ignore it.
+	if($webhookEventData->sender->login === $username)
+	{
+		return;
+	}
+
 	$activeEvents = array();
 	foreach ($subscribedEvents as $eventName) {
 		if($webhookEventHeader["XGithubEvent"] === $eventName)
@@ -71,6 +77,5 @@ function addToEventList(object $eventObject)
 	}
 	array_push($eventList, $eventObject);
 	file_put_contents('./tmp/events.json', (json_encode($eventList)));
-
 }
 
