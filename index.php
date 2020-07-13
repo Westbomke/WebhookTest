@@ -2,7 +2,8 @@
 
 //Config
 $username = "Westbomke";
-$subscribedEvents = array("pull_request", "unsignedCommit", "newTag");
+$subscribedEvents = array("pull_request", "release", "unsignedCommit"); 
+//pull_request = pull request, release = new tag, (unsigned commit not implemented yet), 
 //Config end
 
 getPostRequest($username, $subscribedEvents);
