@@ -1,6 +1,4 @@
-<?
-
-//Config
+<?php
 $username = "Westbomke";
 $subscribedEvents = array("pull_request", "release", "unsignedCommit"); 
 //pull_request = pull request, release = new tag, (unsigned commit not implemented yet), 
@@ -38,7 +36,8 @@ function getPostRequest(string $username, array $subscribedEvents){
 function isSubscribedEvent(array $webhookEventHeader, object $webhookEventData, string $username, array $subscribedEvents)
 {
 	//If the event was caused by yourself (defined at the top), ignore it.
-	if($webhookEventData->sender->login === $username)
+	//Important: This case is inverted so it can be tested without having to create a second account.
+	if($webhookEventData->sender->login !== $username) 
 	{
 		return;
 	}
@@ -59,10 +58,13 @@ function isSubscribedEvent(array $webhookEventHeader, object $webhookEventData, 
 
 //Builds an Object containing only relevant data.
 function buildEventObject(array $activeEvents, object $webhookEventData){
+	date_default_timezone_set('Europe/Berlin');
+	$date = date('d/m/Y G:i:s', time());
+
 	$eventObject = new \stdClass();
+	$eventObject->Timestamp = $date;
 	$eventObject->EventType = implode(",", $activeEvents);
 	$eventObject->Username = $webhookEventData->sender->login;
-	$eventObject->Timestamp = time();
 
 	addToEventList($eventObject);
 }
