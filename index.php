@@ -1,4 +1,5 @@
 <?
+//This comment was added to test Pullrequests
 //Config
 $username = "Westbomke";
 $subscribedEvents = array("opened", "unsignedCommit", "newTag");
