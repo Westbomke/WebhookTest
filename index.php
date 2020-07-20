@@ -22,7 +22,7 @@ function getPostRequest(string $username, array $subscribedEvents){
 			//Payload object - Contains a bunch of information about the Github Event.
 			$webhookEventData = json_decode($_POST["payload"]);
 			isSubscribedEvent($webhookEventHeader, $webhookEventData, $username, $subscribedEvents);
-
+			//Need a new push to inspect payload
 		}
 		else {
 			throw new Exception("post request empty", 1); 
